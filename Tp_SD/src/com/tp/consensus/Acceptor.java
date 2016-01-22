@@ -22,5 +22,5 @@ public class Acceptor extends Process {
 			getPending().remove(message);
 		}
 	}
-//acceptor
+
 }
