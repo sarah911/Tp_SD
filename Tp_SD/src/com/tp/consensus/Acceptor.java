@@ -1,26 +1,26 @@
 package com.tp.consensus;
 
 public class Acceptor extends Process {
-public Acceptor(int processId) {
+	public Acceptor(int processId) {
 		super(processId);
 		// TODO Auto-generated constructor stub
 	}
 
-public void acknowledge(Proposer from, Object message){
-	//Si on reçoit un message de proposer, on dit qu'on a bien reçu le message
-	if (from.isSent()&& isAlive() ){
-		System.out.println("Accepter n° " + getProcessId()+
-				" acknowledge message from process n°  " + from.getProcessId() );
-		getPending().add(message);
-	}
-	
-}
-public void deliver(Proposer p,Object message) {
-	if (p.getDelivered().contains(message) && isAlive()){
-		System.out.println("message " + message  +" delivered from acceptor n° "+getProcessId());
-		getDelivered().add(message);
-		getPending().remove(message);
-	}
-}
+	public void acknowledge(Proposer from, Object message){
+		//Si on reï¿½oit un message de proposer, on dit qu'on a bien reï¿½u le message
+		if (from.isSent()&& isAlive() ){
+			System.out.println("Accepter nï¿½ " + getProcessId()+
+					" acknowledge message from process nï¿½  " + from.getProcessId() );
+			getPending().add(message);
+		}
 
+	}
+	public void deliver(Proposer p,Object message) {
+		if (p.getDelivered().contains(message) && isAlive()){
+			System.out.println("message " + message  +" delivered from acceptor nï¿½ "+getProcessId());
+			getDelivered().add(message);
+			getPending().remove(message);
+		}
+	}
+//acceptor
 }
