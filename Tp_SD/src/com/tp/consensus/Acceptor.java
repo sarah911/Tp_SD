@@ -15,12 +15,13 @@ public class Acceptor extends Process {
 		}
 
 	}
-	public void deliver(Proposer p,Object message) {
-		if (p.getDelivered().contains(message) && isAlive()){
-			System.out.println("message " + message  +" delivered from acceptor n� "+getProcessId());
-			getDelivered().add(message);
-			getPending().remove(message);
-		}
+//test
+public void deliver(Proposer p,Object message) {
+	if (p.getDelivered().contains(message) && isAlive()){
+		System.out.println("message " + message  +" delivered from acceptor n� "+getProcessId());
+		getDelivered().add(message);
+		getPending().remove(message);
 	}
-
+//missing functions
+}
 }
