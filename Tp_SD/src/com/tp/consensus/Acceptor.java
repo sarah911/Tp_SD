@@ -15,6 +15,7 @@ public void acknowledge(Proposer from, Object message){
 	}
 	
 }
+//test
 public void deliver(Proposer p,Object message) {
 	if (p.getDelivered().contains(message) && isAlive()){
 		System.out.println("message " + message  +" delivered from acceptor n° "+getProcessId());
