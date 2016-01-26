@@ -2,55 +2,50 @@ package com.tp.consensus;
 
 import java.util.LinkedList;
 
+
 public class Test {
-
+static Object min_global=0;
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		//utiliser plusieurs scénarios de transmission
+			//initialization of requests
+		String m1="hello world!";
+		int m2=2;
 		
-		//Elire le proposer ...
-		//forcer des processus à mort/vivant
-		//lancer le consenus par un propose par exemple
+			//initialization of processes 
+		Process p1=new Process(1);
+		Process p2= new Process(2);
+		p1.getNeighbours().add(p2);
+		p2.getNeighbours().add(p1);
 		
-		//HashSet<Integer> 
-		//initialize network
-		LinkedList<Integer> p = new LinkedList<Integer>();
-		for (int i=0;i<5;i++){
-			p.add(i);
-		}
+		//Send requests to some processes
+		p1.receiveMsg(m1);
+		p2.receiveMsg(m2);
 		
-		
-		//choose a leader (proposer)
-		Proposer p1= new Proposer(3);
-		LinkedList<Integer> neighbours = p;
-		neighbours.remove(p.get(3));
-		p1.setProcessNeighbourhood(neighbours);
-		
-		//propose
-		Object message ="hello";
-		p1.propose(message);
-		
-		//Get the Neighbourhood as acceptors
-		LinkedList<Acceptor> a=new LinkedList<Acceptor>();
-		for (int n: p1.getProcessNeighbourhood()){
-			a.add(new Acceptor(n));
-		}
-		
-		//kill someone (manual kill)
-		Acceptor a1 = a.get(2);
-		a1.setAlive(false);
-		a.remove(a1);
-		
-		//Acknowledgement
-		for (Acceptor aa:a){
-		  aa.acknowledge(p1, message);	
-		}
-		
-		//Delivery
-		p1.deliver(message);
-		for (Acceptor aa:a){
-			  aa.deliver(p1,message);	
-			}		
+		min_global=m1;
+		//Threads
+		Thread(p1);
+		Thread(p2);
 	}
-
+	public static Object minimum (LinkedList<Object> l){
+		return 0;
+	}
+	public static void Thread(Process p){
+		while(true){
+			if(!p.getPending().isEmpty()){
+	            Object min = minimum (p.getPending());
+	            if (min == min_global) p.propose(min);
+	            if (!p.isLeader() && p.isAlive() && p.isReceived(min)){
+	                p.acknowledge(p.getProposer(),min);
+	            }
+	            else if (p.isLeader() && p.isAlive() && p.getCompteur()> p.getNeighbours().size()/2){
+	                p.deliver(min);
+	            }
+	            if (!p.isLeader() && p.isAlive()&& p.isReceived(min)){
+	                p.deliver(p.getProposer(),min);
+	            }
+	            p.setLeader(false);
+	            p.setDeliver(false);
+	        }
+		
+	}
+}
 }
