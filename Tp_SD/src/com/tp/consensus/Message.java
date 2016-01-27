@@ -1,6 +1,8 @@
 package com.tp.consensus;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable {
 	private int id;
 	private Object info;
 	
@@ -19,5 +21,8 @@ public class Message {
 	}
 	public void setInfo(Object info) {
 		this.info = info;
+	}
+	public String toString(){
+		return "id : " + id + " info : " + info;
 	}
 }
