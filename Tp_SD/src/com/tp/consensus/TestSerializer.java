@@ -16,51 +16,13 @@ public class TestSerializer {
 		String procName = "procName";
 		pending.add(m1);
 		pending.add(m2);
-		ObjectOutputStream out = null;
-		try {
-			FileOutputStream fileOut = new FileOutputStream(procName + ".txt");
-			out = new ObjectOutputStream(fileOut);
-			out.writeObject(pending);
-			out.close();
-			fileOut.close();
-			System.out.println("\nSerialization Successful into " + procName + ".txt");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (out != null) {
-					out.close();
-				}
-			} catch (final IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-
-		ObjectInputStream in = null;
-		try {
-			FileInputStream fileIn = new FileInputStream(procName + ".txt");
-			in = new ObjectInputStream(fileIn);
-			LinkedList<Message> mess = (LinkedList<Message>) in.readObject();
-			System.out.println("Deserialized Data: \n" + mess.toString());
-			in.close();
-			fileIn.close();
-		} catch (FileNotFoundException e) {
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (final ClassNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (in != null) {
-					in.close();
-				}
-			} catch (final IOException ex) {
-				ex.printStackTrace();
-			}
-		}
+		
+		MessageSerializerDeserializer.getInstance().messageSerializer(pending, procName);
+		
+		LinkedList<Message> data = MessageSerializerDeserializer.getInstance().messageDeserializer(procName);
+		
+		System.out.println("info from main : \n" + data.toString());
+		
 	}
 
 }
