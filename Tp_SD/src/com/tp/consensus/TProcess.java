@@ -25,7 +25,16 @@ public class TProcess implements Runnable {
 		return min;
 	}
 	
+	public void init(){
+		LinkedList<Message> pending = MessageSerializerDeserializer.getInstance().messageDeserializer(this.name);
+		// un proc qui revit..
+		if(pending != null){
+			p.setPending(pending);
+		}
+	}
+	
 	public void run() {
+		init();
 		while(true){
 			if(!p.getPending().isEmpty()){
 				Message min = minimum (p.getPending());

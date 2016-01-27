@@ -23,12 +23,12 @@ public class MessageSerializerDeserializer {
 	public void messageSerializer(LinkedList<Message> messages, String procName){
 		ObjectOutputStream out = null;
 		try {
-			FileOutputStream fileOut = new FileOutputStream(procName + ".txt");
+			FileOutputStream fileOut = new FileOutputStream(procName + "-pending.txt");
 			out = new ObjectOutputStream(fileOut);
 			out.writeObject(messages);
 			out.close();
 			fileOut.close();
-			System.out.println("\nSerialization Successful into " + procName + ".txt");
+			System.out.println("\nSerialization Successful into " + procName + "-pending.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -48,7 +48,7 @@ public class MessageSerializerDeserializer {
 		ObjectInputStream in = null;
 		LinkedList<Message> messages = null;
 		try {
-			FileInputStream fileIn = new FileInputStream(procName + ".txt");
+			FileInputStream fileIn = new FileInputStream(procName + "-pending.txt");
 			in = new ObjectInputStream(fileIn);
 			messages = (LinkedList<Message>) in.readObject();
 			System.out.println("Deserialized Data: \n" + messages.toString());

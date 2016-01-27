@@ -1,6 +1,10 @@
-package com.tp.consensus;
+package com.tp.test;
 
 import java.util.LinkedList;
+
+import com.tp.consensus.Message;
+import com.tp.consensus.Process;
+import com.tp.consensus.TProcess;
 
 
 public class Test {
