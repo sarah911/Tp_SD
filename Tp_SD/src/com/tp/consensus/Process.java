@@ -10,20 +10,20 @@ private boolean deliver;
 private boolean received;
 private int compteur;
 private Process proposer;
-private LinkedList<Object> pending = new LinkedList<Object> ();
-private LinkedList<Object> delivered = new LinkedList<Object> ();
+private LinkedList<Message> pending = new LinkedList<Message> ();
+private LinkedList<Message> delivered = new LinkedList<Message> ();
 private int neighboursNum;
 private LinkedList<Process> neighbours =new LinkedList<Process>();
 public Process(int processId){
 	this.processId=processId;
 	this.alive=true;
 }
-public void receiveMsg(Object message){
+public void receiveMsg(Message message){
 	if (isAlive()){
 		getPending().add(message);
 	}
 }
-public void propose(Object message){
+public void propose(Message message){
 	if(isAlive()){
 		for (Process n:neighbours){
 		 n.setReceived(message);
@@ -32,20 +32,20 @@ public void propose(Object message){
 		setLeader(true);		
 	}
 }
-public void acknowledge(Process proposer, Object message){
+public void acknowledge(Process proposer, Message message){
 	if (isAlive()){
 		getPending().add(message);
 		proposer.setCompteur(getCompteur()+1);
 	}
 }
-public void deliver(Object message){
+public void deliver(Message message){
 	if (isAlive()){
 		getPending().remove(message);
 		getDelivered().add(message);
 		setDeliver(true);
 	}
 }
-public void deliver(Process proposer, Object message){
+public void deliver(Process proposer, Message message){
 	if(proposer.isDeliver() && isAlive()){
 		getPending().remove(message);
 		getDelivered().add(message);
@@ -69,10 +69,10 @@ public LinkedList<Process> getNeighbours() {
 public void setNeighbours(LinkedList<Process> neighbours){
 	this.neighbours=neighbours;
 }
-public LinkedList<Object> getPending(){
+public LinkedList<Message> getPending(){
 	return this.pending;
 }
-public LinkedList<Object> getDelivered(){
+public LinkedList<Message> getDelivered(){
 	return this.delivered;
 }
 public boolean isAlive() {
@@ -87,10 +87,10 @@ public boolean isLeader() {
 public void setLeader(boolean leader) {
 	this.leader = leader;
 }
-public boolean isReceived(Object received) {
+public boolean isReceived(Message received) {
 	return this.received;
 }
-public void setReceived(Object received) {
+public void setReceived(Message received) {
 	this.received=true;
 }
 public int getCompteur() {
