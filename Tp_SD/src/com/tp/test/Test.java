@@ -23,8 +23,8 @@ public class Test {
 		p2.getNeighbours().add(p1);
 
 		//Send requests to some processes
-		p1.receiveMsg(m1);
-		p2.receiveMsg(m2);
+		p1.receiveClientMsg(m1);
+		p2.receiveClientMsg(m2);
 
 		//min_global=m1;
 		//Threads
@@ -36,10 +36,10 @@ public class Test {
 	    t.start();
 	    t2.start();
 	}
-	public static Object minimum (LinkedList<Object> l){
+/*	public static Object minimum (LinkedList<Object> l){
 		return 0;
 	}
-/*	public static void Thread(Process p){
+	public static void Thread(Process p){
 		while(true){
 			if(!p.getPending().isEmpty()){
 				Object min = minimum (p.getPending());
