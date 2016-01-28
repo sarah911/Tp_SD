@@ -5,7 +5,7 @@ import java.util.LinkedList;
 public class TProcess implements Runnable {
 	private Process p;
 	private String name;
-	private LinkedList<Message> l_msg;
+	public static LinkedList<Message> l_msg;
 
 	public TProcess(Process p, String name, LinkedList<Message> l_msg){
 		this.p = p;
@@ -14,7 +14,6 @@ public class TProcess implements Runnable {
 	}
 
 	public static Message minimum (LinkedList<Message> l){
-		Message min = l.getFirst();
 		int indice =0;
 		int minId = l.getFirst().getId();
 		for (Message m:l){
@@ -56,21 +55,17 @@ public class TProcess implements Runnable {
 				}
 				if (noLeader){
 					p.propose(min);
-					System.out.println("the process n° "+p.getProcessId()+" is proposing the message "+ min.getInfo());
 				}
 			}
-			if (!p.isLeader() && p.isAlive() && p.isReceived(minGlobal)){
+			if (!p.isLeader() && p.isReceived(minGlobal)){
 				p.acknowledge(p.getProposer(),minGlobal);
-				System.out.println("the process n° "+p.getProcessId()+" acknowledged the request from "+p.getProposer().getProcessId());
 			}
-			else if (p.isLeader() && p.isAlive()) {
+			else if (p.isLeader()) {
 				while (p.getCompteur() <= p.getNeighbours().size()/2 );
 				p.deliver(minGlobal);
-				System.out.println("The leader n° "+p.getProcessId()+" delivered the message "+minGlobal.getInfo());
 			}
-			if (!p.isLeader() && p.isAlive()&& p.isReceived(minGlobal) &&  p.getProposer().isDeliver()){
+			if (!p.isLeader() && p.isReceived(minGlobal) &&  p.getProposer().isDeliver()){
 				p.deliver(minGlobal);
-				System.out.println("The process n° "+p.getProcessId()+" delivered the message "+minGlobal.getInfo());
 			}
 			if (p.isDeliver()){
 				boolean b=true;
@@ -80,10 +75,8 @@ public class TProcess implements Runnable {
 				if (b){
 					p.setLeader(false);
 					p.setDeliver(false);
-					l_msg.remove(minGlobal);
+					p.setReceived(false);
 				}
-
-
 			}
 			//}
 		}

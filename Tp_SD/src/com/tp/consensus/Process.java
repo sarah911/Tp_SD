@@ -122,6 +122,7 @@ public class Process {
 				n.receivedLeaderMessage(message);
 				n.setProposer(this);
 			}
+			setLeader(true);
 			System.out.println("Proc " + this.processId + " broadcast message " + message.getId());
 		}
 	}
