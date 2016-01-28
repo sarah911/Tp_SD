@@ -13,7 +13,9 @@ public class Test {
 		//initialization of requests
 		Message m1 = new Message(1,"hello world!");
 		Message m2 = new Message(2,2);
-
+		LinkedList<Message> l_msg = new LinkedList<Message>();
+		l_msg.add(m1);
+		l_msg.add(m2);
 		//initialization of processes 
 		Process p1= new Process(1);
 		Process p2= new Process(2);
@@ -29,8 +31,8 @@ public class Test {
 		//Thread(p1);
 		//Thread(p2);
 
-	    Thread t = new Thread(new TProcess(p1, "p1", 1));
-	    Thread t2 = new Thread(new TProcess(p2, "p2", 1));
+	    Thread t = new Thread(new TProcess(p1, "p1", l_msg));
+	    Thread t2 = new Thread(new TProcess(p2, "p2", l_msg));
 	    t.start();
 	    t2.start();
 	}
