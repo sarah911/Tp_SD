@@ -1,3 +1,4 @@
+/*Test avec 2 process et envoi de 2 messages*/
 package com.tp.test;
 
 import java.util.LinkedList;
@@ -7,8 +8,7 @@ import com.tp.consensus.Process;
 import com.tp.consensus.TProcess;
 
 
-public class Test {
-	//static Object min_global=0;
+public class Test2messages {
 	public static void main(String[] args) {
 		//initialization of requests
 		Message m1 = new Message(1,"hello world!");
@@ -25,11 +25,6 @@ public class Test {
 		//Send requests to some processes
 		p1.receiveClientMsg(m1);
 		p2.receiveClientMsg(m2);
-
-		//min_global=m1;
-		//Threads
-		//Thread(p1);
-		//Thread(p2);
 		
 	    Thread t = new Thread(new TProcess(p1, "p1", l_msg));
 	    Thread t2 = new Thread(new TProcess(p2, "p2",l_msg));

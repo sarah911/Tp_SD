@@ -56,6 +56,10 @@ public class Process {
 	public LinkedList<Message> getDelivered() {
 		return this.delivered;
 	}
+	
+	public void setDelivered(LinkedList<Message> mess) {
+		this.delivered = mess;
+	}
 
 	public boolean isAlive() {
 		return alive;
@@ -79,7 +83,6 @@ public class Process {
 
 	public void receivedLeaderMessage(Message received) {
 		this.received = true;
-		// getPending().add(received);
 	}
 
 	public void setReceived(boolean received) {
@@ -123,6 +126,7 @@ public class Process {
 				n.receivedLeaderMessage(message);
 				n.setProposer(this);
 				n.getPending().add(message);
+//				MessageSerializerDeserializer.getInstance().messageSerializer(n.getPending(), n.getProcessId());
 			}
 			setLeader(true);
 			System.out.println("Proc " + this.processId + " broadcast message " + message.getId());
@@ -140,6 +144,7 @@ public class Process {
 	public void deliver(Message message) {
 		if (isAlive()) {
 			getPending().remove(message);
+//			MessageSerializerDeserializer.getInstance().messageSerializer(getPending(), getProcessId());
 			getDelivered().add(message);
 			setDeliver(true);
 			System.out.println("Proc " + this.processId + " delivers message " + message.getId());
@@ -149,6 +154,7 @@ public class Process {
 	public void deliver(Process proposer, Message message) {
 		if (proposer.isDeliver() && isAlive()) {
 			getPending().remove(message);
+//			MessageSerializerDeserializer.getInstance().messageSerializer(getPending(), getProcessId());
 			getDelivered().add(message);
 			System.out.println("Proc " + this.processId + "(acceptor) delivers message " + message.getId());
 		}
@@ -170,7 +176,6 @@ public class Process {
 
 	public void ackMessage(Message message) {
 		this.ack = true;
-		// getPending().add(received);
 	}
 
 	public void setAcknowledge(boolean ack) {

@@ -1,5 +1,6 @@
 package com.tp.consensus;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,16 +20,22 @@ public class MessageSerializerDeserializer {
 		}
 		return uniqueInstance;
 	}
-	
-	public void messageSerializer(LinkedList<Message> messages, String procName){
+	public void init() {
+		File f = new File("p1-pending.txt");
+		if(f.exists())
+			f.delete();
+		File f2 = new File("p2-pending.txt");
+		if(f2.exists())
+			f2.delete();
+	}
+	public void messageSerializer(LinkedList<Message> messages, int procName){
 		ObjectOutputStream out = null;
 		try {
-			FileOutputStream fileOut = new FileOutputStream(procName + "-pending.txt");
+			FileOutputStream fileOut = new FileOutputStream("p" + procName + "-pending.txt");
 			out = new ObjectOutputStream(fileOut);
 			out.writeObject(messages);
 			out.close();
 			fileOut.close();
-			System.out.println("\nSerialization Successful into " + procName + "-pending.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -44,14 +51,13 @@ public class MessageSerializerDeserializer {
 		}
 	}
 
-	public LinkedList<Message> messageDeserializer(String procName){
+	public LinkedList<Message> messageDeserializer(int procName){
 		ObjectInputStream in = null;
 		LinkedList<Message> messages = null;
 		try {
-			FileInputStream fileIn = new FileInputStream(procName + "-pending.txt");
+			FileInputStream fileIn = new FileInputStream("p" + procName + "-pending.txt");
 			in = new ObjectInputStream(fileIn);
 			messages = (LinkedList<Message>) in.readObject();
-			System.out.println("Deserialized Data: \n" + messages.toString());
 			in.close();
 			fileIn.close();
 		} catch (FileNotFoundException e) {

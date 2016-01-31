@@ -31,7 +31,7 @@ public class TProcess implements Runnable {
 	}
 
 	public void init() {
-		LinkedList<Message> pending = MessageSerializerDeserializer.getInstance().messageDeserializer(this.name);
+		LinkedList<Message> pending = MessageSerializerDeserializer.getInstance().messageDeserializer(p.getProcessId());
 		// un proc qui revit..
 		if (pending != null) {
 			p.setPending(pending);
@@ -56,7 +56,7 @@ public class TProcess implements Runnable {
 							noLeader = false;
 							break;
 						}
-					}
+					}					
 					if (noLeader) {
 						p.propose(min);
 					}
@@ -77,14 +77,31 @@ public class TProcess implements Runnable {
 				}
 				if (p.isDeliver()) {
 					boolean b = true;
-					for (Process n : p.getNeighbours()) {
-						if (!n.isDeliver()) {
-							b = false;
-							break;
+					if (p.isLeader()){
+						while(b) {//System.out.println("p "+ p.getProcessId() + " leader waits others deliver");	
+						
+							for (Process n : p.getNeighbours()) {
+								if (n.isDeliver()) {
+									b = false;//System.out.println("p "+ p.getProcessId() + " leader waited others deliver");	
+								}else { 
+									b = true;
+								}
+							}
+						}
+						b = true;
+					}else{
+						for (Process n : p.getNeighbours()) {
+							if (!n.isDeliver()) {
+								b = false;
+								break;
+							}
 						}
 					}
+					
 					if (b) {
 						p.setLeader(false);
+						//System.out.println("p "+ p.getProcessId() + "no longer leader");
+						
 						p.setDeliver(false);
 						p.setReceived(false);
 

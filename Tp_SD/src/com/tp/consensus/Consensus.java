@@ -1,10 +1,11 @@
 package com.tp.consensus;
 
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.lang.Object;
 
 public class Consensus {
-	private LinkedList<Process> processes = new LinkedList<Process>();
+	private LinkedList<Process> processes;
 	private static Consensus uniqueInstance;// Stockage de l'unique instance de cette classe.
 
 	public static Consensus getInstance() {
@@ -14,8 +15,8 @@ public class Consensus {
 		return uniqueInstance;
 	}
 	
-	public void initialize(int n) {
-
+	public void initialize(LinkedList<Process> p) {
+		processes = p;
 	}
 
 	public void checkLiveness() {
@@ -36,25 +37,17 @@ public class Consensus {
 				proc.updateNeighbour(p,true);
 			}
 			pending.removeAll(delivered);
-		}else {
+			pending = new LinkedList<Message>(new LinkedHashSet<Message>(pending));
+			delivered = new LinkedList<Message>(new LinkedHashSet<Message>(delivered));
+			p.setPending(pending);
+			p.setDelivered(delivered);
+		} else {
 			for (Process proc : processes) {
 				proc.updateNeighbour(p,false);
 			}
 		}
-		// Si nouveau processus, il renvoie un signal ,
-		// les autres processus lui transmettent leurs delivred/pending
-		// le nouveau processus met � jour son delivred/pending
-		// les autres processus delivrent ce qui n'a pas �t� d�livr�
-
-		// si processus meurt, on l'enl�ve de la vue
 	}
 
 	public void process(Proposer p, Object message) {
-		// des threads de process
-		// lancer le process connaissant le proposer,
-		// ses voisins vivants, le message
-		// si un processus de ne fait un ack dans un temps t, il est consid�r�
-		// mort
-		// mise � jour de la liste des vivants
 	}
 }

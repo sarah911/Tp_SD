@@ -1,3 +1,4 @@
+/*Test serializer et deserializer d'une liste de messages*/
 package com.tp.test;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,7 +17,7 @@ public class TestSerializer {
 		LinkedList<Message> pending = new LinkedList<Message> ();
 		Message m1 = new Message(1,2);
 		Message m2 = new Message(3,2);
-		String procName = "procName";
+		int procName = 1;
 		pending.add(m1);
 		pending.add(m2);
 		
@@ -24,7 +25,7 @@ public class TestSerializer {
 		
 		LinkedList<Message> data = MessageSerializerDeserializer.getInstance().messageDeserializer(procName);
 		
-		System.out.println("info from main : \n" + data.toString());
+		System.out.println("Deserialized info from main : \n" + data.toString());
 		
 	}
 
