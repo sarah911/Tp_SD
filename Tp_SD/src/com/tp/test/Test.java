@@ -36,28 +36,4 @@ public class Test {
 	    t.start();
 	    t2.start();
 	}
-/*	public static Object minimum (LinkedList<Object> l){
-		return 0;
-	}
-	public static void Thread(Process p){
-		while(true){
-			if(!p.getPending().isEmpty()){
-				Object min = minimum (p.getPending());
-				if (min == min_global) p.propose(min);
-				if (!p.isLeader() && p.isAlive() && p.isReceived(min)){
-					p.acknowledge(p.getProposer(),min);
-				}
-				else if (p.isLeader() && p.isAlive()) {
-					while (p.getCompteur() <= p.getNeighbours().size()/2 );
-					p.deliver(min);
-				}
-				if (!p.isLeader() && p.isAlive()&& p.isReceived(min)){
-					p.deliver(p.getProposer(),min);
-				}
-				p.setLeader(false);
-				p.setDeliver(false);
-			}
-
-		}
-	}*/
 }
