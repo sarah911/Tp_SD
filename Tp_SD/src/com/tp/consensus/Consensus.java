@@ -1,30 +1,60 @@
 package com.tp.consensus;
 
-public class Consensus {
-	
-	public void initialize(int n){
-		
-	}
-	public void checkLiveness(){
-		
-	}
-	public void chooseLeader(Process[] p){
-		
-	}
-public void changeView(Process p){
-	//Si nouveau processus, il renvoie un signal ,
-	//les autres processus lui transmettent leurs delivred/pending
-	//le nouveau processus met à jour son delivred/pending
-	//les autres processus delivrent ce qui n'a pas été délivré
-	
-	//si processus meurt, on l'enlève de la vue
-}
+import java.util.LinkedList;
+import java.lang.Object;
 
-public void process(Proposer p, Object message){
-	//des threads de process
-	//lancer le process connaissant le proposer,
-	//ses voisins vivants, le message
-	//si un processus de ne fait un ack dans un temps t, il est considéré mort
-	//mise à jour de la liste des vivants
-}
+public class Consensus {
+	private LinkedList<Process> processes = new LinkedList<Process>();
+	private static Consensus uniqueInstance;// Stockage de l'unique instance de cette classe.
+
+	public static Consensus getInstance() {
+		if (uniqueInstance == null) {
+			uniqueInstance = new Consensus();
+		}
+		return uniqueInstance;
+	}
+	
+	public void initialize(int n) {
+
+	}
+
+	public void checkLiveness() {
+
+	}
+
+	public void chooseLeader(Process[] p) {
+
+	}
+
+	public void changeView(Process p) {
+		if (!processes.contains(p)) {
+			LinkedList<Message> pending = new LinkedList<Message>();
+			LinkedList<Message> delivered = new LinkedList<Message>();
+			for (Process proc : processes) {
+				pending.addAll(proc.getPending());
+				delivered.addAll(proc.getDelivered());
+				proc.updateNeighbour(p,true);
+			}
+			pending.removeAll(delivered);
+		}else {
+			for (Process proc : processes) {
+				proc.updateNeighbour(p,false);
+			}
+		}
+		// Si nouveau processus, il renvoie un signal ,
+		// les autres processus lui transmettent leurs delivred/pending
+		// le nouveau processus met ï¿½ jour son delivred/pending
+		// les autres processus delivrent ce qui n'a pas ï¿½tï¿½ dï¿½livrï¿½
+
+		// si processus meurt, on l'enlï¿½ve de la vue
+	}
+
+	public void process(Proposer p, Object message) {
+		// des threads de process
+		// lancer le process connaissant le proposer,
+		// ses voisins vivants, le message
+		// si un processus de ne fait un ack dans un temps t, il est considï¿½rï¿½
+		// mort
+		// mise ï¿½ jour de la liste des vivants
+	}
 }

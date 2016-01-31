@@ -140,7 +140,7 @@ public class Process {
 			getPending().remove(message);
 			getDelivered().add(message);
 			setDeliver(true);
-			System.out.println("Proc " + this.processId + "(leader) delivers message " + message.getId());
+			System.out.println("Proc " + this.processId + " delivers message " + message.getId());
 		}
 	}
 
@@ -149,6 +149,16 @@ public class Process {
 			getPending().remove(message);
 			getDelivered().add(message);
 			System.out.println("Proc " + this.processId + "(acceptor) delivers message " + message.getId());
+		}
+	}
+
+	public void updateNeighbour(Process p, boolean addProc) {
+		if (addProc) {
+			this.getNeighbours().add(p);
+			this.neighboursNum ++;
+		} else {
+			this.getNeighbours().remove(p);
+			this.neighboursNum --;
 		}
 	}
 }
