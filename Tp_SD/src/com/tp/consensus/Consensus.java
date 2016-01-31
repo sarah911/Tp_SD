@@ -48,6 +48,4 @@ public class Consensus {
 		}
 	}
 
-	public void process(Proposer p, Object message) {
-	}
 }
