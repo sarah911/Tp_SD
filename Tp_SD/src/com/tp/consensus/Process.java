@@ -14,6 +14,7 @@ public class Process {
 	private LinkedList<Message> delivered = new LinkedList<Message>();
 	private int neighboursNum;
 	private LinkedList<Process> neighbours = new LinkedList<Process>();
+	private boolean ack;
 
 	public Process(int processId) {
 		this.processId = processId;
@@ -121,6 +122,7 @@ public class Process {
 			for (Process n : neighbours) {
 				n.receivedLeaderMessage(message);
 				n.setProposer(this);
+				n.getPending().add(message);
 			}
 			setLeader(true);
 			System.out.println("Proc " + this.processId + " broadcast message " + message.getId());
@@ -129,7 +131,7 @@ public class Process {
 
 	public void acknowledge(Process proposer, Message message) {
 		if (isAlive()) {
-			getPending().add(message);
+			ackMessage(message);
 			proposer.setCompteur(getCompteur() + 1);
 			System.out.println("Proc " + this.processId + " acknowledges message " + message.getId());
 		}
@@ -140,7 +142,7 @@ public class Process {
 			getPending().remove(message);
 			getDelivered().add(message);
 			setDeliver(true);
-			System.out.println("Proc " + this.processId + "(leader) delivers message " + message.getId());
+			System.out.println("Proc " + this.processId + " delivers message " + message.getId());
 		}
 	}
 
@@ -150,5 +152,17 @@ public class Process {
 			getDelivered().add(message);
 			System.out.println("Proc " + this.processId + "(acceptor) delivers message " + message.getId());
 		}
+	}
+
+	public boolean isAcknowledge(Message message) {
+		return this.ack;
+	}
+	public void ackMessage(Message message) {
+		this.ack = true;
+		//getPending().add(received);
+	}
+	
+	public void setAcknowledge(boolean ack) {
+		this.ack = ack;
 	}
 }
